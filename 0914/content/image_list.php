@@ -1,11 +1,11 @@
 <?php
 
 define('THUMBNAIL_DIR', dirname(__FILE__) . '/images/thumb');
-define('SLIDE_DIR', dirname(__FILE__) . '/images/large');
+define('SLIDE_DIR', dirname(__FILE__) . '/images/medium');
 define('DOWNLOAD_DIR', dirname(__FILE__) . '/images/download');
 
 define('THUMBNAIL_URL', 'content/images/thumb/%s');
-define('SLIDE_URL', 'content/images/large/%s');
+define('SLIDE_URL', 'content/images/medium/%s');
 define('DOWNLOAD_URL', 'content/images/download/%s');
 
 define('IMAGE_ELEM',

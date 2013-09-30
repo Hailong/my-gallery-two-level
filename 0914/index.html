@@ -23,6 +23,11 @@ if ((($title = file_get_contents(dirname(__FILE__) . '/title.txt')) === FALSE) |
 		<script type="text/javascript">
 			document.write('<style>.noscript { display: none; }</style>');
 		</script>
+		<style type="text/css">
+			div.navigation a.pageLink {
+				margin-top: -20px;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="page">
@@ -107,7 +112,7 @@ if ((($title = file_get_contents(dirname(__FILE__) . '/title.txt')) === FALSE) |
 				// Initialize Advanced Galleriffic Gallery
 				var gallery = $('#thumbs').galleriffic({
 					delay:                     2500,
-					numThumbs:                 10,
+					numThumbs:                 15,
 					preloadAhead:              10,
 					enableTopPager:            false,
 					enableBottomPager:         false,
