@@ -1,14 +1,14 @@
 <?php
 
-define(THUMBNAIL_DIR, dirname(__FILE__) . '/images/thumb');
-define(SLIDE_DIR, dirname(__FILE__) . '/images/large');
-define(DOWNLOAD_DIR, dirname(__FILE__) . '/images/download');
+define('THUMBNAIL_DIR', dirname(__FILE__) . '/images/thumb');
+define('SLIDE_DIR', dirname(__FILE__) . '/images/large');
+define('DOWNLOAD_DIR', dirname(__FILE__) . '/images/download');
 
-define(THUMBNAIL_URL, 'content/images/thumb/%s');
-define(SLIDE_URL, 'content/images/large/%s');
-define(DOWNLOAD_URL, 'content/images/download/%s');
+define('THUMBNAIL_URL', 'content/images/thumb/%s');
+define('SLIDE_URL', 'content/images/large/%s');
+define('DOWNLOAD_URL', 'content/images/download/%s');
 
-define(IMAGE_ELEM,
+define('IMAGE_ELEM',
 '
                             <li>
                                 <a class="thumb" name="" href="%s" title="">
@@ -22,7 +22,7 @@ define(IMAGE_ELEM,
                             </li>
 ');
 
-define(DOWNLOAD_ELEM,
+define('DOWNLOAD_ELEM',
 '
                                     <div class="download">
                                         <a href="%s">打开大尺寸图</a>
@@ -48,7 +48,7 @@ if ($image_list_cache === FALSE || strlen($image_list_cache) < 100) {
 
             if (in_array($ext, $image_extensions) && in_array($name, $slide_files)) {
 
-                if (in_array($name, $download_files)) {
+                if (is_array($download_files) && in_array($name, $download_files)) {
                     $download_elem = sprintf(DOWNLOAD_ELEM, sprintf(DOWNLOAD_URL, $name));
                 } else {
                     $download_elem = '';

@@ -1,1 +1,148 @@
+<?
+define('CUR_DIR', dirname(__FILE__));
+require_once(CUR_DIR . '/config.inc');
+require_once(CUR_DIR . '/common.inc');
 
+$img_groups = array();
+$sub_dirs = scandir(CUR_DIR);
+
+if (is_array($sub_dirs)) {
+    foreach ($sub_dirs as $dir) {
+        $thumb_dir = CUR_DIR . '/' . $dir . '/content/images/thumb';
+
+        if (
+            !is_dir($dir) ||
+            !is_file(CUR_DIR . '/' . $dir . '/index.html') ||
+            !is_dir($thumb_dir)
+        ) {
+            continue;
+        }
+
+        $thumbs = scandir($thumb_dir);
+        if (!is_array($thumbs)) {
+            continue;
+        }
+
+        $thumb_url = NULL;
+        foreach ($thumbs as $thumb) {
+            if (mg_is_image_file($thumb)) {
+                $thumb_url = $dir . '/content/images/thumb/' . $thumb;
+                break;
+            }
+        }
+
+        if ($thumb_url) {
+            $text = $dir;
+            $title_file = CUR_DIR . '/' . $dir . '/title.txt';
+            if (is_file($title_file)) {
+                if ((($text = file_get_contents($title_file)) === FALSE) || (trim($text) == '')) {
+                    $text = $dir;
+                }
+            }
+
+            $img_groups[$dir] = array(
+                'text' => $text,
+                'href' => $dir . '/',
+                'thumb' => $thumb_url,
+            );
+        }
+    }
+}
+?>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title><? echo ALBUM_TITLE; ?></title>
+    <style type="text/css">
+* {margin: 0; padding: 0;}
+ 
+div {
+  margin: 20px;
+}
+ 
+ul {
+  list-style-type: none;
+  width: 500px;
+}
+ 
+h3 {
+  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+ 
+li img {
+  float: left;
+  margin: 0 15px 0 0;
+}
+ 
+li p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+ 
+li {
+  padding: 10px;
+  overflow: auto;
+}
+ 
+li:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+h1 {
+    margin: 20px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    background-color: #f6f6f6;
+    color: #444;
+}
+
+.row {
+    width:100%;
+    max-width:755px;
+    min-width:755px;
+    margin:0 auto;
+    overflow:hidden;
+}
+
+.article {
+    background:#fff;
+    margin:0px;
+    border:1px solid #efefef;
+    border-bottom:0px;
+    margin-bottom:20px;
+
+    width:540px;
+    padding-bottom: 10px;
+}
+
+
+
+    </style>
+</head>
+<body>
+<div class="row">
+<div class="article">
+<h1><? echo ALBUM_TITLE ?></h1>
+<div>
+<ul>
+<? foreach($img_groups as $group): ?>
+    <a href="<? echo $group['href'] ?>">
+    <li>
+      <img src="<? echo $group['thumb'] ?>">
+      <h3><? echo $group['text']; ?></h3>
+      <p></p>
+    </li>
+    </a>
+<? endforeach; ?>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
