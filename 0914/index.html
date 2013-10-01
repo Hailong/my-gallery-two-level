@@ -1,9 +1,8 @@
 <?
 require_once(dirname(__FILE__) . '/config.inc');
 
-if ((($title = file_get_contents(dirname(__FILE__) . '/title.txt')) === FALSE) || (trim($title) == '')) {
-	$title = basename(dirname(__FILE__));
-}
+$title = isset($sub_dir_config['title']) && $sub_dir_config['title'] ? $sub_dir_config['title'] : basename(dirname(__FILE__));
+$description = isset($sub_dir_config['description']) ? $sub_dir_config['description'] : '';
 ?>
 <html>
 	<head>

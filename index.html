@@ -33,15 +33,17 @@ if (is_array($sub_dirs)) {
 
         if ($thumb_url) {
             $text = $dir;
-            $title_file = CUR_DIR . '/' . $dir . '/title.txt';
-            if (is_file($title_file)) {
-                if ((($text = file_get_contents($title_file)) === FALSE) || (trim($text) == '')) {
-                    $text = $dir;
-                }
+            $desc = '';
+            $config_file = CUR_DIR . '/' . $dir . '/config.inc';
+            if (is_file($config_file)) {
+                require($config_file);
+                $text = isset($sub_dir_config['title']) && $sub_dir_config['title'] ? $sub_dir_config['title'] : $dir;
+                $desc = isset($sub_dir_config['description']) && $sub_dir_config['description'] ? $sub_dir_config['description'] : '';
             }
 
             $img_groups[$dir] = array(
                 'text' => $text,
+                'desc' => $desc,
                 'href' => $dir . '/',
                 'thumb' => $thumb_url,
             );
@@ -136,7 +138,7 @@ body {
     <li>
       <img src="<? echo $group['thumb'] ?>">
       <h3><? echo $group['text']; ?></h3>
-      <p></p>
+      <p><? echo $group['desc']; ?></p>
     </li>
     </a>
 <? endforeach; ?>
