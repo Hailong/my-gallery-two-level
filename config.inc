@@ -5,12 +5,13 @@ define('ALBUM_TITLE', '2013 旅行');
 $link = mysql_connect('localhost', 'root', 'password');
 if ($link) {
     mysql_select_db('gallery_statistics', $link);
-    $data = array(
-        'REMOTE_ADDR' => $_SERVER['REMOTE_ADDR'],
-        'REQUEST_URI' => $_SERVER['REQUEST_URI'],
-        'HTTP_REFERER' => $_SERVER['HTTP_REFERER'],
-        'apache_request_headers' => apache_request_headers(),
-    );
-    mysql_query("INSERT INTO requests (request) VALUES ('" . mysql_escape_string(substr(print_r($data, TRUE), 0, 1000)) . "');");
+    list($msec, $sec) = explode(" ", microtime());
+    mysql_query(sprintf("INSERT INTO requests (request, remote_addr, request_uri, http_referer, time) VALUES ('%s', '%s', '%s', '%s', '%s');", 
+        mysql_escape_string(substr(print_r(apache_request_headers(), TRUE), 0, 1000)),
+        mysql_escape_string($_SERVER['REMOTE_ADDR']),
+        mysql_escape_string($_SERVER['REQUEST_URI']),
+        mysql_escape_string($_SERVER['HTTP_REFERER']),
+        mysql_escape_string(date("Y-m-d H:i:s", $sec) . substr($msec, 1, 4))
+    ));
     mysql_close($link);
 }
